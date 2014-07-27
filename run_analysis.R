@@ -40,3 +40,5 @@ colnames(subset) <- gsub("Gyro", "Gyroscope", colnames(subset))
 
 #Step 5 - 
 data <- aggregate( . ~ subject + activity, data = subset, mean)
+
+write.csv( file = "output.csv", data )
