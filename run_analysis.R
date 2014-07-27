@@ -1,5 +1,5 @@
 #Step 1 - get the data!
-
+#download.file("https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip", destfile = "UCI HAR Dataset.zip", method="curl")
 unzip(zipfile = "UCI HAR Dataset.zip")
 
 features <- read.table( "UCI HAR Dataset/features.txt" )
@@ -19,7 +19,7 @@ test_data <- cbind( subject_test, y_test, X_test )
 all_data <- rbind( train_data, test_data )
 
 #Step 2 - take a subset which only contains the columns we want. See readme for reasoning.
-features_needed <- as.character( features$V2[ grepl("std|mean", features$V2 ) ] )
+features_needed <- as.character( features$V2[ grepl("^t.+(Acc|Gyro)-(std|mean\\()", features$V2 ) ] )
 columns_needed <- c("subject", "activity", features_needed )
 subset <- all_data[,columns_needed]
 
@@ -29,13 +29,11 @@ subset$activity <- activity_labels[subset$activity, 2]
 #Step 4 - Descriptive Variable Names
 #Not sure exactly what to do here so just giving slightly more 
 #human-readable names which can be found in the codebook.
-colnames(subset) <- gsub("^f", "Frequency", colnames(subset))
 colnames(subset) <- gsub("^t", "TimeSeries", colnames(subset))
 colnames(subset) <- gsub("\\(\\)", "", colnames(subset))
 colnames(subset) <- gsub("-mean", "Mean", colnames(subset))
 colnames(subset) <- gsub("-std", "StandardDeviation", colnames(subset))
 colnames(subset) <- gsub("Acc", "Acceleration", colnames(subset))
-colnames(subset) <- gsub("Mag", "Magnitude", colnames(subset))
 colnames(subset) <- gsub("Gyro", "Gyroscope", colnames(subset))
 
 #Step 5 - 
