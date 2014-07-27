@@ -39,5 +39,5 @@ colnames(subset) <- gsub("Mag", "Magnitude", colnames(subset))
 colnames(subset) <- gsub("Gyro", "Gyroscope", colnames(subset))
 colnames(subset) <- gsub("Freq", "Frequency", colnames(subset))
 
-
 #Step 5 - 
+data <- aggregate( . ~ subject + activity, data = subset, mean)
